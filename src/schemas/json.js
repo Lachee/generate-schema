@@ -145,6 +145,13 @@ function processObject(object, output, nested) {
 
   for (var key in object) {
     var value = object[key]
+
+    //Meta-Values
+    if (key.startsWith("$")) {
+      output[key.substr(1)] = value;
+      continue; 
+    }
+
     var type = getPropertyType(value)
     var format = getPropertyFormat(value)
 
@@ -182,7 +189,8 @@ function processObject(object, output, nested) {
     }
 
     output.properties[key] = {}
-    output.properties[key].type = type
+    output.properties[key].type = type;
+    output.properties[key].default = value;
 
     if (format) {
       output.properties[key].format = format
